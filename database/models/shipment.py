@@ -11,6 +11,8 @@ class Shipment(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     #book_isbn: Mapped[str] = mapped_column(ForeignKey("books.isbn"))
 
+    courier: Mapped[str] = mapped_column()
+    
     address: Mapped[str] = mapped_column()
     
     status: Mapped[str] = mapped_column()  # like "pending", "shipped", "delivered"?
