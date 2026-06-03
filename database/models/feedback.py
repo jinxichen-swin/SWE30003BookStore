@@ -6,10 +6,10 @@ class Feedback(Base):
     __tablename__ = "feedback"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    
+
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"),primary_key=True)
     book_isbn: Mapped[str] = mapped_column(ForeignKey("books.isbn"),primary_key=True)
     #order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"))
-
+    #User can only comment once per book, or can comment multiple times but only the latest one counts?
     comment: Mapped[str] = mapped_column()  
     rating: Mapped[int] = mapped_column() #1-5?

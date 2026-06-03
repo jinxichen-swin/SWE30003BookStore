@@ -9,10 +9,20 @@ class FeedbackManager ():
 
     def create_feedback(self, user_id: int, book_isbn: int, rating: int, comment: str) -> Feedback:
         with Session(self.engine,expire_on_commit=False) as session: 
-            feedback_item = Feedback(user_id=user_id, book_isbn=book_isbn, rating=rating, comment=comment)
-            session.add(feedback_item)
-            session.commit()
-            return feedback_item
+            existing = session.query(Feedback).filter(Feedback.user_id == user_id, Feedback.book_isbn == book_isbn).first()
+            if existing:
+                existing.rating = rating
+                existing.comment = comment
+                session.commit()
+                return existing
+            else:
+                feedback = Feedback(user_id=user_id, book_isbn=book_isbn, rating=rating, comment=comment)
+                session.add(feedback)
+                session.commit()
+                return feedback
+            # User can comment multiple times but only the latest one counts
+            # Update if exists, otherwise create new feedback.
+
 
 
 #Get feedback
